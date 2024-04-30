@@ -1,0 +1,31 @@
+	AREA MYCODE, CODE, READONLY
+	EXPORT __VECTORS
+
+__VECTORS
+	DCD 0X10001000
+	DCD RESET_HANDLER
+	ALIGN 4
+
+	AREA CODEE, CODE, READONLY
+	ENTRY
+	EXPORT RESET_HANDLER
+
+RESET_HANDLER
+	LDR R0, =SRC          
+	LDR R1, =DST  
+	MOV R3,#0
+	MOV R2, #10           
+LOOP
+	LDR R4, [R0], #4
+	ADDS R3,R3,R4     
+	SUBS R2,#1       
+	BNE LOOP  
+	STR R3, [R1]
+
+STOP
+	B STOP                
+
+SRC DCD 8, 3, 2, 1, 4, 6, 7, 9, 4, 1  
+	AREA DD, DATA, READWRITE
+DST DCD 0                              
+	END
